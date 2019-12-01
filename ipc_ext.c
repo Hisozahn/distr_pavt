@@ -53,3 +53,31 @@ void init_stop_msg(Message *msg) {
 void init_ack_msg(Message *msg) {
 	init_msg_header(&msg->s_header, 0, ACK, get_vector_timevec());
 }
+
+void init_balance_msg(Message *msg, balance_t balance, timestamp_t *vec_time)
+{
+    BalanceState state = {0};
+
+    init_msg_header(&msg->s_header, sizeof(BalanceState), BALANCE_STATE, get_vector_timevec());
+    state.s_balance = balance;
+    for (int i = 0; i < MAX_PROCESS_ID; i++)
+        state.s_timevector[i] = vec_time[i];
+
+	memmove(msg->s_payload, &state, sizeof(state));
+}
+
+void init_vtime_msg(Message *msg, timestamp_t vec_time)
+{
+    init_msg_header(&msg->s_header, sizeof(vec_time), SNAPSHOT_VTIME, get_vector_timevec());
+    memmove(msg->s_payload, &vec_time, sizeof(vec_time));
+}
+
+void init_snap_ack_msg(Message *msg)
+{
+	init_msg_header(&msg->s_header, 0, SNAPSHOT_ACK, get_vector_timevec());
+}
+
+void init_empty_msg(Message *msg)
+{
+	init_msg_header(&msg->s_header, 0, EMPTY, get_vector_timevec());
+}

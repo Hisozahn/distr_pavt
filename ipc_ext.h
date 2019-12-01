@@ -21,5 +21,9 @@ void init_transfer_msg(Message *msg, const TransferOrder *order);
 void copy_transfer_msg(Message *dst, const Message *src);
 void init_stop_msg(Message *msg);
 void init_ack_msg(Message *msg); 
+void init_balance_msg(Message *msg, balance_t balance, timestamp_t *vec_time);
+void init_vtime_msg(Message *msg, timestamp_t vec_time);
+void init_snap_ack_msg(Message *msg);
+void init_empty_msg(Message *msg);
 
 #endif // __IPC_EXT__H
