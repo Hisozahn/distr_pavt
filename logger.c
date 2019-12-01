@@ -7,20 +7,29 @@ int log_pipe_descriptors(int *pipefds, int pipes_log_fd) {
 			, "pipe: readfd = %d, writefd = %d\n", pipefds[0], pipefds[1])) < 0) {
 		return -1;
 	}
+#if 0
 	if (write(pipes_log_fd, buffer, out_byte_count) < 0
 			| write(STDOUT_FILENO, buffer, out_byte_count) < 0) {
 		perror("logger: write");
 		return -1;
 	}
+#else
+#endif
 
 	return 0;
 }
 
 int tee_output(int events_log_fd, char *buffer, int out_byte_count) {
+#if 0
 	if (write(events_log_fd, buffer, out_byte_count) < 0
 			| write(STDOUT_FILENO, buffer, out_byte_count) < 0) {
 		return -1;
 	}
+#else
+    (void)events_log_fd;
+    (void)buffer;
+    (void)out_byte_count;
+#endif
 	return 0;
 }
 
