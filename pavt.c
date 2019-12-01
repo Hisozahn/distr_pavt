@@ -12,14 +12,14 @@ void transfer(void * parent_data, local_id src, local_id dst, balance_t amount) 
 	TransferOrder order;
 	init_transfer_order(&order, src, dst, amount);
 	
-	advance_lamport_time(TIME_OMITTED);
+	advance_vector_time(TIME_OMITTED);
 	Message msg_transfer;
 	init_transfer_msg(&msg_transfer, &order);
 	send(parent_data, src, &msg_transfer);
 	
 	Message msg_ack;
 	receive(parent_data, dst, &msg_ack);
-	advance_lamport_time(msg_ack.s_header.s_local_time);
+	advance_vector_time(msg_ack.s_header.s_local_timevector);
 }
 
 void total_sum_snapshot()
